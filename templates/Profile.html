@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+    <h1>Моя страница</h1>
+    {% for el in data %}
+                        <li>{{ el.name}} {{ el.surname }}</li>
+                {% endfor %}
+    <a style="font-size: 20px; position: center" class=btn-danger href="/pictures">Выход</a>
+
+{% endblock %}
