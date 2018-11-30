@@ -19,6 +19,14 @@ def first(request):
     return render(request, 'first.html', data)
 
 
+def firstnotlog(request):
+    data = {
+        'bios': [{'name': 'Childhood', 'text': 'jfkvnvn'}, {'name': 'Education', 'text': 'jfkbhbh'} ]
+    }
+
+    return render(request, 'firstnotlog.html', data)
+
+
 def pictures(request):
     picture = [
         {

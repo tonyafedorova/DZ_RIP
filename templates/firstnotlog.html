@@ -1,0 +1,22 @@
+{% extends 'basenotlog.html' %}
+
+
+{% block title %}Home{% endblock %}
+
+
+
+{% block content %}
+    <h1 >P.A.stel</h1>
+    <h2>Сайт картин Пустовой Анны</h2>
+    <pre>     Эти картины написаны мной под впечатлением, увиденного в разных уголках мира.
+    Я в своих работах не переворачиваю мир вверх ногами и не создаю фантасмагорий. </pre>
+    <div class="container-fluid">
+        <ul>
+            {% for bio in bios %}
+                {% include 'forinclude.html' with el=bio %}
+            {% empty %}
+               <li>Пустой список</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
