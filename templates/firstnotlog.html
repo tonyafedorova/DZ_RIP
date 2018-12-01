@@ -13,7 +13,10 @@
     <div class="container-fluid">
         <ul>
             {% for bio in bios %}
-                {% include 'forinclude.html' with el=bio %}
+                <li class="new-list">
+                    <pre class="list1">{{ bio.name }}</pre>
+                    <pre class="biography"> {{ bio.text }} </pre>
+                </li>
             {% empty %}
                <li>Пустой список</li>
             {% endfor %}

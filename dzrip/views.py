@@ -13,7 +13,7 @@ from dzrip.models import CustomerModel
 
 def first(request):
     data = {
-        'bios': [{'name': 'Childhood', 'text': 'jfkvnvn'}, {'name': 'Education', 'text': 'jfkbhbh'} ]
+        'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'}, {'name': 'Education', 'text': 'jfkbhbh'} ]
     }
 
     return render(request, 'first.html', data)
@@ -21,7 +21,7 @@ def first(request):
 
 def firstnotlog(request):
     data = {
-        'bios': [{'name': 'Childhood', 'text': 'jfkvnvn'}, {'name': 'Education', 'text': 'jfkbhbh'} ]
+        'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'}, {'name': 'Education', 'text': 'jfkbhbh'} ]
     }
 
     return render(request, 'firstnotlog.html', data)
@@ -70,16 +70,6 @@ def picturenotlog(request):
         },
     ]
     return render(request, 'picturenotlog.html', context={'pictures': picture})
-
-
-def bios(request, name):
-    data={
-        'bio':{
-            'name': name,
-        }
-    }
-
-    return render(request, 'bio.html', data)
 
 
 class Profile(TemplateView):
