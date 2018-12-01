@@ -27,6 +27,15 @@ def firstnotlog(request):
     return render(request, 'firstnotlog.html', data)
 
 
+def login(request):
+    if request.method == 'POST':
+        logininfo = request.POST.get('login')
+        password = request.POST.get('password')
+        print(logininfo)
+        print(password)
+    return render(request, 'login.html')
+
+
 def pictures(request):
     picture = [
         {
@@ -43,6 +52,24 @@ def pictures(request):
         },
     ]
     return render(request, 'pictures.html', context={'pictures': picture})
+
+
+def picturenotlog(request):
+    picture = [
+        {
+            'pic': 'new-york.jpg',
+            'text': 'Нью-Йорк',
+            'price': 500
+        },
+        {
+            'text': 'Венеция',
+            'price': 600
+        },
+        {
+            'text': 'Фреди',
+        },
+    ]
+    return render(request, 'picturenotlog.html', context={'pictures': picture})
 
 
 def bios(request, name):

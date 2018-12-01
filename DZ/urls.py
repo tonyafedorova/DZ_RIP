@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
-from dzrip.views import first, pictures, bios, forLab5, Profile, firstnotlog
+from dzrip.views import first, pictures, bios, forLab5, Profile, firstnotlog, login, picturenotlog
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +25,7 @@ urlpatterns = [
     path('bio/<name>/', bios, name='bio_url'),
     path('lab5/', forLab5.as_view()),
     path('profile/', Profile.as_view()),
-    path('firstnotlog/', firstnotlog)
+    path('firstnotlog/', firstnotlog),
+    path('login/', login),
+    path('picnotlog/', picturenotlog)
 ]
