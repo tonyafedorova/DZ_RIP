@@ -1202,12 +1202,12 @@ h6,
 .h4,
 .h5,
 .h6 {
-  /*text-align: center;*/
+  text-align: center;
   font-family: fantasy;
   font-weight: 900;
   font-size: 30px;
   line-height: 1.5;
-  color: #23527c;
+  color: #d9534f;
 }
 h2,
 .h2{
@@ -1269,7 +1269,7 @@ h1,
 .h1,
 h3,
 .h3 {
-  text-align: left;
+  text-align: center;
   margin-top: 20px;
   margin-bottom: 10px;
 }

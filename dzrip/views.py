@@ -86,3 +86,8 @@ class forLab5(TemplateView):
     def get(self, request):
         data = CustomerModel.objects.all()
         return render(request, 'forLab5.html', context={'data': data})
+
+
+def signup(request):
+    return render(request, 'signup.html')
+
