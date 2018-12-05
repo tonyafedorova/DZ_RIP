@@ -5,10 +5,7 @@ from django.shortcuts import render
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from django.views.generic import TemplateView
-
-
-
+from django.views.generic import TemplateView, CreateView
 
 from django.views import View
 
@@ -80,7 +77,11 @@ def pictures(request):
         },
     ]
     if not request.user.is_authenticated:
-        return render(request, 'firstnotlog.html')
+        data = {
+            'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'},
+                     {'name': 'Education', 'text': 'jfkbhbh'}]
+        }
+        return render(request, 'firstnotlog.html', data)
     else:
         return render(request, 'pictures.html', context={'pictures': picture})
 
@@ -119,7 +120,13 @@ class forLab5(TemplateView):
         return render(request, 'forLab5.html', context={'data': data})
 
 
-def signup(request):
+class signup(CreateView):
     form__class = Registration
-    return render(request, 'signup.html')
+    template_name = 'signup.html'
 
+    def get_success_url(self):
+        return reverse('root')
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
