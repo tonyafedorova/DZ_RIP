@@ -27,6 +27,6 @@ urlpatterns = [
     path('firstnotlog/', firstnotlog, name='firstnotlog'),
     path('login/', MyLoginView.as_view(), name='login'),
     path('picnotlog/', picturenotlog),
-    path('signup/', signup, name='signup'),
+    path('signup/', signup.as_view(), name='signup'),
     path('logout/', logout)
 ]

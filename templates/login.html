@@ -31,11 +31,12 @@
                             {{ field.as_widget }}
                         </div>
                     {% endfor %}
-                    <button type="submit" class="btn btn-primary">Отправить</button>
+                    <button type="submit" class="btn btn-primary">Вход</button>
                 </form>
+                <br>
                 <form action="{% url "signup"%}">
                     <div class="space">
-                        <button type="register" class="btn btn-primary">Регистрация</button>
+                        <button class="btn btn-primary">Регистрация</button>
                     </div>
                 </form>
             </div>

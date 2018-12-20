@@ -21,7 +21,7 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-                <form action="/registration/" enctype="multipart/form-data" method="post" class="form-signin">
+                <form action="/Registration/" enctype="multipart/form-data" method="post" class="form-signin">
                     {% csrf_token %}
                     {% for field in form %}
                         <div class="form-group">

@@ -52,13 +52,6 @@ def logout(request):
     else:
         return HttpResponseRedirect(reverse('firstnotlog'))
 
-# def login(request):
-#     if request.method == 'POST':
-#         logininfo = request.POST.get('login')
-#         password = request.POST.get('password')
-#         print(logininfo)
-#         print(password)
-#     return render(request, 'login.html')
 
 
 def pictures(request):
