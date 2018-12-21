@@ -2,19 +2,16 @@ from django.contrib import auth
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView
 
-from django.views import View
-from dzrip.forms import Registration
 from dzrip.models import CustomerModel
 
 
 def first(request):
     data = {
-        'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'}, {'name': 'Education', 'text': 'jfkbhbh'} ]
+        'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'}, {'name': 'Education', 'text': 'jfkbhbh'}]
     }
 
     if not request.user.is_authenticated:
@@ -25,7 +22,7 @@ def first(request):
 
 def firstnotlog(request):
     data = {
-        'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'}, {'name': 'Education', 'text': 'jfkbhbh'} ]
+        'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'}, {'name': 'Education', 'text': 'jfkbhbh'}]
     }
 
     return render(request, 'firstnotlog.html', data)
@@ -50,7 +47,6 @@ def logout(request):
         return render(request, 'firstnotlog.html')
     else:
         return HttpResponseRedirect(reverse('firstnotlog'))
-
 
 
 def pictures(request):
@@ -100,8 +96,15 @@ class Profile(TemplateView):
     template_name = "Profile.html"
 
     def get(self, request):
-        data = CustomerModel.objects.all()
-        return render(request, 'Profile.html', context={'data': data})
+        data1 = CustomerModel.objects.all()
+        data2 = {
+            'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'},
+                     {'name': 'Education', 'text': 'jfkbhbh'}]
+        }
+        if not request.user.is_authenticated:
+            return render(request, 'firstnotlog.html', data2)
+        else:
+            return render(request, 'Profile.html', context={'data': data1})
 
 
 class forLab5(TemplateView):
@@ -110,18 +113,6 @@ class forLab5(TemplateView):
     def get(self, request):
         data = CustomerModel.objects.all()
         return render(request, 'forLab5.html', context={'data': data})
-#
-#
-# class signup(CreateView):
-#     form__class = Registration
-#     template_name = 'signup.html'
-#
-#     def get_success_url(self):
-#         return reverse('root')
-#
-#     def form_valid(self, form):
-#         form.save()
-#         return super().form_valid(form)
 
 
 def signup(request):
@@ -129,9 +120,8 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('/profile/'))
+            return redirect("root")
     else:
         form = UserCreationForm()
         args = {'form': form}
         return render(request, 'signup.html', args)
-
