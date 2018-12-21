@@ -1,14 +1,13 @@
 from django.contrib import auth
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import TemplateView, CreateView
 
 from django.views import View
-
 from dzrip.forms import Registration
 from dzrip.models import CustomerModel
 
@@ -111,15 +110,28 @@ class forLab5(TemplateView):
     def get(self, request):
         data = CustomerModel.objects.all()
         return render(request, 'forLab5.html', context={'data': data})
+#
+#
+# class signup(CreateView):
+#     form__class = Registration
+#     template_name = 'signup.html'
+#
+#     def get_success_url(self):
+#         return reverse('root')
+#
+#     def form_valid(self, form):
+#         form.save()
+#         return super().form_valid(form)
 
 
-class signup(CreateView):
-    form__class = Registration
-    template_name = 'signup.html'
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('/profile/'))
+    else:
+        form = UserCreationForm()
+        args = {'form': form}
+        return render(request, 'signup.html', args)
 
-    def get_success_url(self):
-        return reverse('root')
-
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)

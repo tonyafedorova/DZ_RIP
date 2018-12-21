@@ -21,14 +21,19 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-                <form action="/Registration/" enctype="multipart/form-data" method="post" class="form-signin">
+{#                <form action="/Profile/" enctype="multipart/form-data" method="post" class="form-signin">#}
+{#                    {% csrf_token %}#}
+{#                    {% for field in form %}#}
+{#                        <div class="form-group">#}
+{#                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>#}
+{#                            {{ field.as_widget }}#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>#}
+{#                </form>#}
+                <form method="post">
                     {% csrf_token %}
-                    {% for field in form %}
-                        <div class="form-group">
-                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            {{ field.as_widget }}
-                        </div>
-                    {% endfor %}
+                    {{ form.as_p }}
                     <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
                 </form>
             </div>
