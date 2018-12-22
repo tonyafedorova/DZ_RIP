@@ -2,6 +2,7 @@ from django.contrib import auth
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
+from dzrip.forms import Registration
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import TemplateView
@@ -11,7 +12,7 @@ from dzrip.models import CustomerModel
 
 def first(request):
     data = {
-        'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'}, {'name': 'Education', 'text': 'jfkbhbh'}]
+        'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'}, {'name': 'Образование', 'text': 'Художественное образование получила в МГУДТ'}]
     }
 
     if not request.user.is_authenticated:
@@ -22,7 +23,7 @@ def first(request):
 
 def firstnotlog(request):
     data = {
-        'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'}, {'name': 'Education', 'text': 'jfkbhbh'}]
+        'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'}, {'name': 'Образование', 'text': 'Художественное образование получила в МГУДТ'}]
     }
 
     return render(request, 'firstnotlog.html', data)
@@ -67,7 +68,7 @@ def pictures(request):
     if not request.user.is_authenticated:
         data = {
             'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'},
-                     {'name': 'Education', 'text': 'jfkbhbh'}]
+                     {'name': 'Образование', 'text': 'Художественное образование получила в МГУДТ'}]
         }
         return render(request, 'firstnotlog.html', data)
     else:
@@ -99,7 +100,7 @@ class Profile(TemplateView):
         data1 = CustomerModel.objects.all()
         data2 = {
             'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'},
-                     {'name': 'Education', 'text': 'jfkbhbh'}]
+                     {'name': 'Образование', 'text': 'Художественное образование получила в МГУДТ'}]
         }
         if not request.user.is_authenticated:
             return render(request, 'firstnotlog.html', data2)
@@ -117,11 +118,11 @@ class forLab5(TemplateView):
 
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = Registration(request.POST)
         if form.is_valid():
             form.save()
             return redirect("root")
     else:
-        form = UserCreationForm()
+        form = Registration()
         args = {'form': form}
         return render(request, 'signup.html', args)
