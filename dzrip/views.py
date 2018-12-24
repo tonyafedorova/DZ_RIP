@@ -6,7 +6,9 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserChangeForm
+from dzrip.forms import Edit
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 from dzrip.models import CustomerModel
 
@@ -124,6 +126,8 @@ def signup(request):
         if form.is_valid():
             form.save()
             return redirect("root")
+        else:
+            return redirect('/signup/')
     else:
         form = Registration()
         args = {'form': form}
@@ -132,14 +136,31 @@ def signup(request):
 
 def profedit(request):
     if request.method=='POST':
-        form = UserChangeForm(request.POST, instance=request.user)
+        form = Edit(request.POST, instance=request.user)
 
         if form.is_valid():
             form.save()
             return redirect('/profile')
+        else:
+            return redirect('/profile/edit/')
     else:
-        form = UserChangeForm(instance=request.user)
+        form = Edit(instance=request.user)
         args = {'form': form}
         return render(request, 'edit.html', args)
 
 
+def changepass(request):
+    if request.method=='POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect('/profile')
+        else:
+            return redirect('/profile/password/')
+
+    else:
+        form = PasswordChangeForm(user=request.user)
+        args = {'form': form}
+        return render(request, 'changepass.html', args)
