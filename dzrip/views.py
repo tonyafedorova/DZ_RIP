@@ -1,11 +1,12 @@
 from django.contrib import auth
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
 from dzrip.forms import Registration
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import TemplateView
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserChangeForm
 
 from dzrip.models import CustomerModel
 
@@ -44,8 +45,12 @@ class MyLoginView(LoginView):
 
 def logout(request):
     auth.logout(request)
+    data = {
+        'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'},
+                 {'name': 'Образование', 'text': 'Художественное образование получила в МГУДТ'}]
+    }
     if not request.user.is_authenticated:
-        return render(request, 'firstnotlog.html')
+        return render(request, 'firstnotlog.html', data)
     else:
         return HttpResponseRedirect(reverse('firstnotlog'))
 
@@ -93,19 +98,16 @@ def picturenotlog(request):
     return render(request, 'picturenotlog.html', context={'pictures': picture})
 
 
-class Profile(TemplateView):
-    template_name = "Profile.html"
-
-    def get(self, request):
-        data1 = CustomerModel.objects.all()
-        data2 = {
-            'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'},
-                     {'name': 'Образование', 'text': 'Художественное образование получила в МГУДТ'}]
-        }
-        if not request.user.is_authenticated:
-            return render(request, 'firstnotlog.html', data2)
-        else:
-            return render(request, 'Profile.html', context={'data': data1})
+def Profile(request):
+    args = {"user": request.user}
+    data2 = {
+                'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'},
+                         {'name': 'Образование', 'text': 'Художественное образование получила в МГУДТ'}]
+            }
+    if not request.user.is_authenticated:
+        return render(request, 'firstnotlog.html', data2)
+    else:
+        return render(request, 'Profile.html', args)
 
 
 class forLab5(TemplateView):
@@ -126,3 +128,18 @@ def signup(request):
         form = Registration()
         args = {'form': form}
         return render(request, 'signup.html', args)
+
+
+def profedit(request):
+    if request.method=='POST':
+        form = UserChangeForm(request.POST, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+            return redirect('/profile')
+    else:
+        form = UserChangeForm(instance=request.user)
+        args = {'form': form}
+        return render(request, 'edit.html', args)
+
+

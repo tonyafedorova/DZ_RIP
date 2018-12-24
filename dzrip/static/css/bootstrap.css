@@ -56,19 +56,25 @@ b,
 strong {
   font-weight: bold;
 }
+.username{
+
+  font-family: "American Typewriter";
+  font-size: 14px;
+  color: #c9302c;
+}
 dfn {
-  font-style: italic;
+  font-style: normal;
 }
 h1 {
   margin: .67em 0;
-  font-size: 3em;
+  font-size: 5em;
 }
 mark {
-  color: #000;
+  color: #eb9316;
   background: #ff0;
 }
 small {
-  font-size: 80%;
+  font-size: 50%;
 }
 sub,
 sup {
@@ -266,7 +272,7 @@ th {
 h7, .h7{
   font-size: 40px;
   font-family: "American Typewriter";
-  background-color: #c9302c;
+  background-color: #e7e7e7;
 }
 
 #10 {
@@ -3402,8 +3408,8 @@ fieldset[disabled] .btn-warning.focus {
 }
 .btn-danger {
   color: #fff;
-  background-color: #d9534f;
-  border-color: #d43f3a;
+  background-color: #eb9316;
+  border-color: #d58512;
 }
 .btn-danger:focus,
 .btn-danger.focus {

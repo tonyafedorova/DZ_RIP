@@ -16,17 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
-from dzrip.views import first, pictures, forLab5, Profile, firstnotlog, picturenotlog, signup, MyLoginView, logout
+from dzrip.views import first, pictures, forLab5, Profile, firstnotlog, picturenotlog, signup, MyLoginView, logout, profedit
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', first, name='root'),
     url(r'^pictures/', pictures),
     path('lab5/', forLab5.as_view()),
-    path('profile/', Profile.as_view()),
+    path('profile/', Profile),
     path('firstnotlog/', firstnotlog, name='firstnotlog'),
     path('login/', MyLoginView.as_view(), name='login'),
     path('picnotlog/', picturenotlog),
     path('signup/', signup, name='signup'),
-    path('logout/', logout)
+    path('logout/', logout),
+    path('profile/edit/', profedit, name='edit')
 ]
