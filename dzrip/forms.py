@@ -1,13 +1,9 @@
-from django.contrib.auth import get_user_model
-from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm
-from django.db import models
 
 
 class Registration(UserCreationForm):
-    # email = forms.EmailField(required=True)
     class Meta:
         model = User
         fields = (
@@ -30,7 +26,6 @@ class Registration(UserCreationForm):
 
 
 class Edit(UserChangeForm):
-    # email = forms.EmailField(required=True)
     class Meta:
         model = User
         fields = (
