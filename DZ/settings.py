@@ -105,7 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'lab5',
+        'NAME': 'dz',
         'USER': 'tonya',
         'PASSWORD': '171064',
         'HOST': 'localhost',
@@ -128,10 +128,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-AUTH_USER_MODEL = 'dzrip.Customer'
+AUTH_USER_MODEL = 'dzrip.customer'
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

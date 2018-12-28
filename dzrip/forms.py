@@ -2,10 +2,12 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm
 
+from dzrip.models import customer
+
 
 class Registration(UserCreationForm):
     class Meta:
-        model = User
+        model = customer
         fields = (
             "username",
             "first_name",
@@ -27,7 +29,7 @@ class Registration(UserCreationForm):
 
 class Edit(UserChangeForm):
     class Meta:
-        model = User
+        model = customer
         fields = (
             "username",
             "first_name",

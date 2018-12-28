@@ -14,8 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.conf.urls.static import static
 from django.urls import path
 from django.conf.urls import url
+
+from DZ import settings
 from dzrip.views import first, pictures, forLab5, Profile, firstnotlog, picturenotlog, signup, MyLoginView, logout, profedit, changepass
 
 urlpatterns = [
@@ -31,4 +34,5 @@ urlpatterns = [
     path('logout/', logout),
     path('profile/edit/', profedit, name='edit'),
     path('profile/password/', changepass, name='change')
-]
+
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

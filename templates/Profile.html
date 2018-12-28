@@ -11,6 +11,11 @@
             <h2 small style="font-size: 25px; font-family: 'Al Nile'">Имя: {{ user.first_name }}</h2>
             <h2 small style="font-size: 25px; font-family: 'Al Nile'">Фамилия: {{ user.last_name }}</h2>
             <h2 small style="font-size: 25px; font-family: 'Al Nile'">Почта: {{ user.email }}</h2>
+            <div class='profile_avatar_full'
+                style="background: url('/media/{{user.avatar}}') no-repeat center;
+                             background-size: contain;">
+             </div>
+
 
         </p>
         <a style="color: #d58512; font-size: 25px; background-color: #ffdfe5" href="/profile/edit"> Изменить личную информацию </a>

@@ -1175,6 +1175,15 @@ hr {
   border: 0;
   border-top: 1px solid #eee;
 }
+
+.profile_avatar_full{
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    vertical-align: top;
+    margin-right: 20px;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

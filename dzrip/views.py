@@ -9,10 +9,12 @@ from dzrip.forms import Edit
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
+from dzrip.models import customer
+
 
 def first(request):
     data = {
-        'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'}, {'name': 'Образование', 'text': 'Художественное образование получила в МГУДТ'}]
+        'bios': [{'name': 'Детство', 'text': 'Родилась в Великом Новгороде'}, {'name': 'Образование', 'text': 'Художественное образование получила в МГУДТ'}]
     }
 
     if not request.user.is_authenticated:
@@ -23,7 +25,7 @@ def first(request):
 
 def firstnotlog(request):
     data = {
-        'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'}, {'name': 'Образование', 'text': 'Художественное образование получила в МГУДТ'}]
+        'bios': [{'name': 'Детство', 'text': 'Родилась в Великом Новгороде'}, {'name': 'Образование', 'text': 'Художественное образование получила в МГУДТ'}]
     }
 
     return render(request, 'firstnotlog.html', data)
@@ -45,7 +47,7 @@ class MyLoginView(LoginView):
 def logout(request):
     auth.logout(request)
     data = {
-        'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'},
+        'bios': [{'name': 'Детство', 'text': 'Родилась в Великом Новгороде'},
                  {'name': 'Образование', 'text': 'Художественное образование получила в МГУДТ'}]
     }
     if not request.user.is_authenticated:
@@ -71,7 +73,7 @@ def pictures(request):
     ]
     if not request.user.is_authenticated:
         data = {
-            'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'},
+            'bios': [{'name': 'Детство', 'text': 'Родилась в Великом Новгороде'},
                      {'name': 'Образование', 'text': 'Художественное образование получила в МГУДТ'}]
         }
         return render(request, 'firstnotlog.html', data)
@@ -100,7 +102,7 @@ def picturenotlog(request):
 def Profile(request):
     args = {"user": request.user}
     data2 = {
-                'bios': [{'name': 'Детсво', 'text': 'Родилась в Великом Новгороде'},
+                'bios': [{'name': 'Детство', 'text': 'Родилась в Великом Новгороде'},
                          {'name': 'Образование', 'text': 'Художественное образование получила в МГУДТ'}]
             }
     if not request.user.is_authenticated:
@@ -113,7 +115,7 @@ class forLab5(TemplateView):
     template_name = "forLab5.html"
 
     def get(self, request):
-        data = CustomerModel.objects.all()
+        data = customer.objects.all()
         return render(request, 'forLab5.html', context={'data': data})
 
 
