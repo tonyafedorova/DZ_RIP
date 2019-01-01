@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class customer(AbstractUser):
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True,
-                               default='avatars/default_avatar.png',
+                               default='avatars/111.jpg',
                                verbose_name='Аватар')
     description = models.CharField(max_length=255, verbose_name='О себе', blank=True, null=True)
     objects = UserManager()

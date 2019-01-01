@@ -1,5 +1,7 @@
 from django.contrib import auth
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
+from django.forms import model_to_dict
 from django.shortcuts import render, redirect
 from dzrip.forms import Registration
 from django.http import HttpResponseRedirect
@@ -134,9 +136,9 @@ def signup(request):
 
 
 def profedit(request):
+    user = request.user
     if request.method=='POST':
         form = Edit(request.POST, instance=request.user)
-
         if form.is_valid():
             form.save()
             return redirect('/profile')

@@ -1,7 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm
-
 from dzrip.models import customer
 
 
@@ -34,13 +32,22 @@ class Edit(UserChangeForm):
             "username",
             "first_name",
             "last_name",
-            "email"
+            "email",
+            "avatar",
+            "description"
         )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
 
     def save(self, commit=True):
         user = super(Edit, self).save(commit=False)
         user.first_name = self.cleaned_data["first_name"]
         user.last_name = self.cleaned_data["last_name"]
+        user.avatar = self.cleaned_data["avatar"]
+        user.description = self.cleaned_data["description"]
 
         if commit:
             user.save()
