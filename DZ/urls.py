@@ -19,7 +19,7 @@ from django.urls import path
 from django.conf.urls import url
 
 from DZ import settings
-from dzrip.views import first, pictures, forLab5, Profile, firstnotlog, picturenotlog, signup, MyLoginView, logout, profedit, changepass
+from dzrip.views import first, pictures, forLab5, Profile, firstnotlog, picturenotlog, signup, MyLoginView, logout, profedit, changepass, newpic
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,6 +33,7 @@ urlpatterns = [
     path('signup/', signup, name='signup'),
     path('logout/', logout),
     path('profile/edit/', profedit, name='edit'),
-    path('profile/password/', changepass, name='change')
+    path('profile/password/', changepass, name='change'),
+    path('newpicture/', newpic)
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

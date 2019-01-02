@@ -6,8 +6,8 @@
 {% block content %}
 
     <div class="container">
-         <form method="post">
-             {% csrf_token %}
+         <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
             {{ form.as_p }}
              <button>Изменить</button>
          </form>

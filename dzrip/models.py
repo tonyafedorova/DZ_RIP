@@ -4,8 +4,8 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class customer(AbstractUser):
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True,
-                               default='avatars/111.jpg',
+    avatar = models.ImageField(upload_to='media/avatars/', blank=True, null=True,
+                               default='111.jpg',
                                verbose_name='Аватар')
     description = models.CharField(max_length=255, verbose_name='О себе', blank=True, null=True)
     objects = UserManager()
@@ -16,7 +16,7 @@ class customer(AbstractUser):
         verbose_name_plural = _('Профили пользователей')
 
 
-# customer._meta.get_field('username').verbose_name = 'Имя пользователя'
+customer._meta.get_field('username').verbose_name = 'Имя пользователя'
 
 
 # class customer(models.Model):
@@ -30,6 +30,16 @@ class customer(AbstractUser):
 class PictureModel(models.Model):
     picname = models.CharField(max_length=30)
     description = models.CharField(max_length=255)
+    picture = models.ImageField(upload_to='media/pics/', blank=True, null=True,
+                               default='111.jpg',
+                               verbose_name='Картина')
+
+
+    class Meta:
+        db_table = 'PictureModel'
+        verbose_name = _('Картина')
+        verbose_name_plural = _('Картины')
+
 
 
 class PurchaseModel(models.Model):

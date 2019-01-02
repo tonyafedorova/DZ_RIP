@@ -7,7 +7,7 @@ from dzrip.forms import Registration
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import TemplateView
-from dzrip.forms import Edit
+from dzrip.forms import Edit, newpics
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
@@ -59,6 +59,8 @@ def logout(request):
 
 
 def pictures(request):
+    args = {"pic": request.pic}
+
     picture = [
         {
             'pic': 'new-york.jpg',
@@ -80,7 +82,7 @@ def pictures(request):
         }
         return render(request, 'firstnotlog.html', data)
     else:
-        return render(request, 'pictures.html', context={'pictures': picture})
+        return render(request, 'pictures.html', args)
 
 
 def picturenotlog(request):
@@ -165,3 +167,17 @@ def changepass(request):
         form = PasswordChangeForm(user=request.user)
         args = {'form': form}
         return render(request, 'changepass.html', args)
+
+
+def newpic(request):
+    if request.method=='POST':
+        form = newpics(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('/pictures')
+        else:
+            return redirect('/newpicture/')
+    else:
+        form = newpics(instance=request.user)
+        args = {'form': form}
+        return render(request, 'newpic.html', args)

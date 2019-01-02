@@ -53,3 +53,30 @@ class Edit(UserChangeForm):
             user.save()
 
         return user
+
+
+class newpics(UserChangeForm):
+    class Meta:
+        model = customer
+        fields = (
+            "picname",
+            "picture",
+            "description"
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+
+    def save(self, commit=True):
+        pic = super(newpics, self).save(commit=False)
+        pic.picname = self.cleaned_data["picname"]
+        pic.picture = self.cleaned_data["picture"]
+        pic.description = self.cleaned_data["description"]
+
+        if commit:
+            pic.save()
+
+        return pic
+
