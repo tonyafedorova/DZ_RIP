@@ -1,0 +1,9 @@
+<li>
+    <div class="task">
+        <div class = 'task_image'
+             style="background:
+                         url('/media/{{element.image}}') no-repeat center;
+                         background-size: cover;"></div>
+        <a href="{% url 'dzrip: picture_url' element.id %}">{{ element.name }}</a>
+    </div>
+</li>

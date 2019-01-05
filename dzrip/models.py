@@ -19,24 +19,17 @@ class customer(AbstractUser):
 customer._meta.get_field('username').verbose_name = 'Имя пользователя'
 
 
-# class customer(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE, default='')
-#     name = models.CharField(max_length=30)
-#     surname = models.CharField(max_length=30)
-#     city = models.CharField(max_length=100, default='')
-#     phone = models.IntegerField(default=0)
-
-
-class PictureModel(models.Model):
-    picname = models.CharField(max_length=30)
-    description = models.CharField(max_length=255)
-    picture = models.ImageField(upload_to='media/pics/', blank=True, null=True,
-                               default='111.jpg',
-                               verbose_name='Картина')
-
+class Picture(models.Model):
+    name = models.CharField(max_length=80, verbose_name='Название')
+    description = models.CharField(max_length=255, verbose_name='Описание')
+    price = models.DateTimeField(verbose_name='Стоимость')
+    author = models.ManyToManyField(customer, verbose_name='Автор')
+    image = models.ImageField(upload_to='pics/', blank=True, null=True,
+                                   default='pics/111.jpg',
+                                   verbose_name='Изображение')
 
     class Meta:
-        db_table = 'PictureModel'
+        db_table = 'Картина'
         verbose_name = _('Картина')
         verbose_name_plural = _('Картины')
 

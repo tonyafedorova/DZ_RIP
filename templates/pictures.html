@@ -1,52 +1,61 @@
+{#{% extends 'base.html' %}#}
+{#{% load static %}#}
+{##}
+{##}
+{#{% block title %}Pictures{% endblock %}#}
+{##}
+{#{% block content %}#}
+{#    <div class="container" style="max-width: 800px">#}
+{#        <div class="jumbotron">#}
+{#            <div class="row">#}
+{#                {% for pic in pictures %}#}
+{#                    <div class="col-md-6">#}
+{#                        <div class="thumbnail">#}
+{#                            <img src="{% static "pics/new-york.jpg"%}">#}
+{#                            <div class="caption">#}
+{#                                <p>{{ pic.text }}</p>#}
+{#                                {% if pic.price %}#}
+{#                                <p>Цена: {{ pic.price }} рублей</p>#}
+{#                                {% else %}#}
+{#                                    <p>Цена: договорная</p>#}
+{#                                {% endif %}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#       </div>#}
+{#    </div>#}
+{#{% endblock %}#}
+
+
 {% extends 'base.html' %}
 {% load static %}
-
-
-{% block title %}Pictures{% endblock %}
-
+{% block title %}Картины{% endblock %}
 {% block content %}
-    <div class="container" style="max-width: 800px">
-        <div class="jumbotron">
-            <div class="row">
-                {% for pic in pictures %}
-                    <div class="col-md-6">
-                        <div class="thumbnail">
-                            <img src="{% static "pics/new-york.jpg"%}">
-                            <div class="caption">
-                                <p>{{ pic.text }}</p>
-                                {% if pic.price %}
-                                <p>Цена: {{ pic.price }} рублей</p>
-                                {% else %}
-                                    <p>Цена: договорная</p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
+    {% include 'menu.html' with user=user %}
+    <div class = TL_Page>
+        <div class = tasks_list>
+            <ul id="tasks">
+                {% for task in tasks %}
+                    {% include 'picture_element.html' with element=task %}
+                {% empty %}
+                    <li> Картин нет</li>
                 {% endfor %}
-            </div>
-       </div>
+            </ul>
+        </div>
     </div>
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <form method="post" enctype="multipart/form-data" id="form_create">
+          {% csrf_token %}
+          {{ form_create.as_p }}
+          <input type="submit" value="Добавить" id="add">
+        </form>
+      </div>
+    </div>
+    <script type="text/javascript" src="{% static "/js/tasks.js" %}"></script>
+    <script type="text/javascript" src="{% static "/js/create.js" %}"></script>
 {% endblock %}
 
-
- <div class=container>
-        <p>
-            <h2 small style="font-size: 25px; font-family: 'Al Nile'">Имя пользователя: {{ user }}</h2>
-            <div class='profile_avatar_full'
-                style="background: url('/media/{{user.avatar}}') no-repeat center;
-                             background-size: contain;">
-             </div>
-            <h2 small style="font-size: 25px; font-family: 'Al Nile'">Имя: {{ user.first_name }}</h2>
-            <h2 small style="font-size: 25px; font-family: 'Al Nile'">Фамилия: {{ user.last_name }}</h2>
-            <h2 small style="font-size: 25px; font-family: 'Al Nile'">Почта: {{ user.email }}</h2>
-            <h2 small style="font-size: 25px; font-family: 'Al Nile'">О себе: {{ user.description }}</h2>
-
-
-
-
-        </p>
-        <a style="color: #d58512; font-size: 25px; background-color: #ffdfe5" href="/profile/edit"> Изменить личную информацию </a>
-        <br>
-        <a style="font-size: 30px; background-color: #ac2925; color: #ffdfe5 " href="/logout">Выход</a>
-
-    </div>

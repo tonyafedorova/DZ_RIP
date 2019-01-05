@@ -1,6 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserChangeForm
-from dzrip.models import customer
+from django.forms import ModelForm
+
+from dzrip.models import customer, Picture
 
 
 class Registration(UserCreationForm):
@@ -55,28 +57,40 @@ class Edit(UserChangeForm):
         return user
 
 
-class newpics(UserChangeForm):
+class PictureCreationForm(ModelForm):
     class Meta:
-        model = customer
-        fields = (
-            "picname",
-            "picture",
-            "description"
-        )
+        model = Picture
+        fields = ['name', 'description', 'price', 'author', 'image']
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
+        self.user = user
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
 
     def save(self, commit=True):
-        pic = super(newpics, self).save(commit=False)
-        pic.picname = self.cleaned_data["picname"]
-        pic.picture = self.cleaned_data["picture"]
-        pic.description = self.cleaned_data["description"]
-
+        pic = super().save(commit=False)
         if commit:
             pic.save()
-
+        pic.executor.set([self.user])
         return pic
 
+
+class PictureCreateForm(ModelForm):
+    class Meta:
+        model = Picture
+        fields = ['name', 'description', 'price', 'author', 'image']
+
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+
+    def save(self, commit=True):
+        pic = super().save(commit=False)
+        if commit:
+            pic.save()
+        pic.executor.set([self.user])
+        return pic
