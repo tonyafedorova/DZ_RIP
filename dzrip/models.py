@@ -4,8 +4,8 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class customer(AbstractUser):
-    avatar = models.ImageField(upload_to='media/avatars/', blank=True, null=True,
-                               default='111.jpg',
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True,
+                               default='avatars/111_XTdrxrR.jpg',
                                verbose_name='Аватар')
     description = models.CharField(max_length=255, verbose_name='О себе', blank=True, null=True)
     objects = UserManager()
@@ -22,19 +22,19 @@ customer._meta.get_field('username').verbose_name = 'Имя пользовате
 class Picture(models.Model):
     name = models.CharField(max_length=80, verbose_name='Название')
     description = models.CharField(max_length=255, verbose_name='Описание')
-    price = models.DateTimeField(verbose_name='Стоимость')
+    price = models.IntegerField(verbose_name='Стоимость')
     author = models.ManyToManyField(customer, verbose_name='Автор')
     image = models.ImageField(upload_to='pics/', blank=True, null=True,
                                    default='pics/111.jpg',
                                    verbose_name='Изображение')
 
     class Meta:
-        db_table = 'Картина'
+        db_table = 'Picture'
         verbose_name = _('Картина')
         verbose_name_plural = _('Картины')
 
 
 
-class PurchaseModel(models.Model):
-    idcustomer = models.IntegerField()
-    idpicture = models.IntegerField()
+# class PurchaseModel(models.Model):
+#     idcustomer = models.IntegerField()
+#     idpicture = models.IntegerField()

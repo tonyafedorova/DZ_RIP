@@ -105,7 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dz',
+        'NAME': 'dz2',
         'USER': 'tonya',
         'PASSWORD': '171064',
         'HOST': 'localhost',
@@ -150,3 +150,4 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
 
 
+LOGIN_REDIRECT_URL = '/picture_list/my/'
