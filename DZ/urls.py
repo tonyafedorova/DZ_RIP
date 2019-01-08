@@ -21,14 +21,14 @@ from django.conf.urls import url, include
 from DZ import settings
 from dzrip.views import first, pictures, forLab5, Profile, firstnotlog, picturenotlog, signup, MyLoginView, logout, \
     profedit, changepass, PictureRemoveView, PictureView, PictureListView, PictureListPageView, PictureCreateView, \
-    FastPictureCreateView
+    FastPictureCreateView, Pics
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', first, name='root'),
     # url(r'^pictures/', pictures),
     path('lab5/', forLab5.as_view()),
-    path('profile/', Profile),
+    path('profile/', Profile, name='profile'),
     path('firstnotlog/', firstnotlog, name='firstnotlog'),
     path('login/', MyLoginView.as_view(), name='login'),
     path('picnotlog/', picturenotlog),
@@ -41,6 +41,7 @@ urlpatterns = [
     path('picture_creation/', PictureCreateView.as_view(), name='picture_creation'),
     path('fast_picture_creation/', FastPictureCreateView.as_view(success_url='/fast_picture_creation/'),
          name='fast_picture_creation'),
+    path('pics/', Pics.as_view(), name='pics'),
     path('<int:id>/', include(('dzrip.picture_urls', 'dzrip')))
 
     ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

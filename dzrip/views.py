@@ -42,7 +42,7 @@ class MyLoginView(LoginView):
         return data
 
     def get_success_url(self):
-        return reverse('picture_list')
+        return reverse('profile')
 
 
 def logout(request):
@@ -261,3 +261,11 @@ class FastPictureCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+
+class Pics(TemplateView):
+    template_name = "pics.html"
+
+    def get(self, request):
+        data = Picture.objects.all()
+        return render(request, 'pics.html', context={'data': data})

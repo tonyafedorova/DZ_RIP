@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+{% block title %}pics{% endblock %}
+
+{% block content %}
+    <h1>Картины</h1>
+    <div class="container" style="max-width: 800px">
+        <div class="jumbotron">
+            <div class="row">
+                {% for el in data %}
+                    <div class="col-md-6">
+                        <div class="thumbnail">
+                            <div class='profile_avatar_full' style="background: url('/media/{{el.image}}') no-repeat center;background-size: contain;">
+                            </div>
+                            <div class="caption">
+                                <p>{{ el.name }}</p>
+                                <p>{{ el.description }}</p>
+                                {% if el.price %}
+                                <p>Цена: {{ el.price }} рублей</p>
+                                {% else %}
+                                    <p>Цена: договорная</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+       </div>
+    </div>
+
+{% endblock %}
