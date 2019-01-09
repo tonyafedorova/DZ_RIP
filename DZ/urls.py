@@ -21,7 +21,7 @@ from django.conf.urls import url, include
 from DZ import settings
 from dzrip.views import first, pictures, forLab5, Profile, firstnotlog, picturenotlog, signup, MyLoginView, logout, \
     profedit, changepass, PictureRemoveView, PictureView, PictureListView, PictureListPageView, PictureCreateView, \
-    FastPictureCreateView, Pics
+    FastPictureCreateView, Pics, like_post
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -41,6 +41,7 @@ urlpatterns = [
     path('picture_creation/', PictureCreateView.as_view(), name='picture_creation'),
     path('fast_picture_creation/', FastPictureCreateView.as_view(success_url='/fast_picture_creation/'),
          name='fast_picture_creation'),
+    path('like/', like_post, name='like_post'),
     path('pics/', Pics.as_view(), name='pics'),
     path('<int:id>/', include(('dzrip.picture_urls', 'dzrip')))
 

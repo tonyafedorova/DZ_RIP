@@ -21,6 +21,16 @@
                                 {% else %}
                                     <p>Цена: договорная</p>
                                 {% endif %}
+                                <form action="{% url 'like_post' %}" method="post">
+                                    {% csrf_token %}
+{#                                    <a href="#" class="btn btn-default" role="button">#}
+{#                                    <span class="glyphicon glyphicon-heart"></span> {{ el.like }}#}
+{#                                </a>#}
+                                    <button class="btn btn-default" type="submit", id="like" name="post_id", value="{{ el.id }}">
+                                        <span class="glyphicon glyphicon-heart"></span>
+                                        {{ el.total_likes }}
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

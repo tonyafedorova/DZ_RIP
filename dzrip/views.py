@@ -2,9 +2,10 @@ from django.contrib import auth
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.forms import model_to_dict
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
 from dzrip.forms import Registration, PictureCreateForm, PictureCreationForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.views.generic import TemplateView, ListView, CreateView, DeleteView
 from dzrip.forms import Edit
@@ -269,3 +270,21 @@ class Pics(TemplateView):
     def get(self, request):
         data = Picture.objects.all()
         return render(request, 'pics.html', context={'data': data})
+
+
+
+def like_post(request):
+    post = get_object_or_404(Picture, id=request.POST.get('post_id'))
+    # post = get_object_or_404(Picture, id=request.POST.get('id'))
+    is_laked = False
+    if post.like.filter(id = request.user.id).exists():
+        post.like.remove(request.user)
+        is_laked = False
+    else:
+        post.like.add(request.user)
+        is_laked = True
+    return HttpResponseRedirect(reverse('pics'))
+    # context = {'data': post}
+    # if request.is_ajax():
+    #     html = render_to_string('pics.html', context, request=request)
+    #     return JsonResponse({'form': html})
