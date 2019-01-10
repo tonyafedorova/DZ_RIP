@@ -4,7 +4,7 @@ from django.contrib.auth.views import LoginView
 from django.forms import model_to_dict
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
-from dzrip.forms import Registration, PictureCreateForm, PictureCreationForm
+from dzrip.forms import Registration, PictureCreateForm
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.views.generic import TemplateView, ListView, CreateView, DeleteView
@@ -31,6 +31,21 @@ def firstnotlog(request):
     }
 
     return render(request, 'firstnotlog.html', data)
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = Registration(request.POST)
+        if form.is_valid():
+            form.save()
+            # return redirect("root")
+            return HttpResponseRedirect(reverse('root'))
+        else:
+            return redirect('/signup/')
+    else:
+        form = Registration()
+        args = {'form': form}
+        return render(request, 'signup.html', args)
 
 
 class MyLoginView(LoginView):
@@ -115,28 +130,6 @@ def Profile(request):
         return render(request, 'Profile.html', args)
 
 
-class forLab5(TemplateView):
-    template_name = "forLab5.html"
-
-    def get(self, request):
-        data = customer.objects.all()
-        return render(request, 'forLab5.html', context={'data': data})
-
-
-def signup(request):
-    if request.method == 'POST':
-        form = Registration(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("root")
-        else:
-            return redirect('/signup/')
-    else:
-        form = Registration()
-        args = {'form': form}
-        return render(request, 'signup.html', args)
-
-
 def profedit(request):
     user = request.user
     if request.method=='POST':
@@ -169,99 +162,19 @@ def changepass(request):
         return render(request, 'changepass.html', args)
 
 
-class PictureListView(LoginRequiredMixin, ListView):
-    model = Picture
-    template_name = 'pictures.html'
-    context_object_name = "pictures"
-    paginate_by = 5
-
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data['user'] = self.request.user
-        data['form_create'] = PictureCreateForm(self.request.user)
-        return data
-
-    def get_queryset(self):
-        if self.kwargs['whose'] == 'my':
-            return self.model.objects.filter(executor=self.request.user.id).order_by('id')
-        if self.kwargs['whose'] == 'all':
-            return self.model.objects.all().order_by('id')
-
-
-class PictureView(LoginRequiredMixin, TemplateView):
-    template_name = 'picture.html'
-
-    def get_context_data(self, id, **kwargs):
-        data = super().get_context_data(**kwargs)
-        user = self.request.user
-        data['is_executor'] = False
-        data['last_executor'] = False
-        pic_exec = Picture.objects.get(id=id).executor
-        cur_user = pic_exec.filter(id=user.id)
-        if cur_user.exists():
-            data['is_executor'] = True
-            if pic_exec.all().count() == 1:
-                data['last_executor'] = True
-        data['picture'] = Picture.objects.get(id=id)
-        return data
-
-
-class PictureCreateView(LoginRequiredMixin, CreateView):
-    form_class = PictureCreationForm
-    template_name = 'picture_creation.html'
-    model = Picture
-
-    def get_success_url(self):
-        return reverse('picture_list', kwargs={'whose': 'my'})
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
-
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
-
-
-class PictureRemoveView(LoginRequiredMixin, DeleteView):
-    def get(self, request, id, **kwargs):
-        Picture.objects.filter(id=id).delete()
-        return HttpResponseRedirect(reverse('picture_list', kwargs={'whose': 'my'}))
-
-
-class PictureListPageView(ListView):
-    model = Picture
-    template_name = 'picture_page.html'
-    context_object_name = "pictures"
-    paginate_by = 5
-
-    def get_queryset(self):
-        if self.kwargs['whose'] == 'my':
-            return Picture.objects.filter(executor=self.request.user.id).order_by('id')
-        if self.kwargs['whose'] == 'all':
-            return Picture.objects.all().order_by('id')
-
-
-class FastPictureCreateView(LoginRequiredMixin, CreateView):
-    form_class = PictureCreationForm
-    template_name = 'picture_element.html'
-    model = Picture
-    #fields = ['name', 'description', 'competition_date', 'task_image']
-
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data['element'] = Picture.objects.order_by('-id')[0]
-        return data
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
-
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
+def PictureCreateView(request):
+    if request.method == 'POST':
+        form = PictureCreateForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+    else:
+        form = PictureCreateForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'picture_creation.html', context)
 
 
 class Pics(TemplateView):
