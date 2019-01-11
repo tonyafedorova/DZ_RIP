@@ -157,8 +157,10 @@ def like_post(request):
     else:
         post.like.add(request.user)
         is_laked = True
-    # return HttpResponseRedirect(reverse('pics'))
     context = {'data': post}
     if request.is_ajax():
-        html = render_to_string('pics.html', context, request=request)
-        return JsonResponse({'form': html})
+        return JsonResponse({'likes': post.total_likes()})
+
+        # html = render_to_string('pics.html', context, request=request)
+        # return JsonResponse({'form': html})
+    # return HttpResponseRedirect(reverse('pics'))
