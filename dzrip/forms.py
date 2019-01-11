@@ -83,6 +83,13 @@ class PictureCreateForm(ModelForm):
         model = Picture
         fields = ['name', 'description', 'author', 'price', 'image']
 
+
+
+
+
+
+
+
     # def __init__(self, user, *args, **kwargs):
     #     super().__init__(*args, **kwargs)
     #     self.user = user

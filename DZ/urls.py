@@ -16,10 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.urls import path
-from django.conf.urls import url, include
+from django.conf.urls import url
 
 from DZ import settings
-from dzrip.views import first, pictures, Profile, firstnotlog, picturenotlog, signup, MyLoginView, logout, \
+from dzrip.views import first, Profile, firstnotlog, signup, MyLoginView, logout, \
     profedit, changepass, PictureCreateView,  Pics, like_post
 
 urlpatterns = [
@@ -28,7 +28,6 @@ urlpatterns = [
     path('profile/', Profile, name='profile'),
     path('firstnotlog/', firstnotlog, name='firstnotlog'),
     path('login/', MyLoginView.as_view(), name='login'),
-    path('picnotlog/', picturenotlog),
     path('signup/', signup, name='signup'),
     path('logout/', logout),
     path('profile/edit/', profedit, name='edit'),

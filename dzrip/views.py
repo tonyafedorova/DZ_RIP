@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.views.generic import TemplateView, ListView, CreateView, DeleteView
 from dzrip.forms import Edit
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import update_session_auth_hash, login, authenticate
 from dzrip.models import customer, Picture
 
 
@@ -39,9 +39,15 @@ def signup(request):
         if form.is_valid():
             form.save()
             # return redirect("root")
-            return HttpResponseRedirect(reverse('root'))
-        else:
-            return redirect('/signup/')
+            username = request.POST['username']
+            password = request.POST['password1']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect(reverse('root'))
+            else:
+                return redirect('/signup/')
+        return redirect('/signup/')
     else:
         form = Registration()
         args = {'form': form}
@@ -73,51 +79,6 @@ def logout(request):
         return HttpResponseRedirect(reverse('firstnotlog'))
 
 
-def pictures(request):
-    # args = {"pic": request.pic}
-
-    picture = [
-        {
-            'pic': 'new-york.jpg',
-            'text': 'Нью-Йорк',
-            'price': 500
-        },
-        {
-            'text': 'Венеция',
-            'price': 600
-        },
-        {
-            'text': 'Фреди',
-        },
-    ]
-    if not request.user.is_authenticated:
-        data = {
-            'bios': [{'name': 'Детство', 'text': 'Родилась в Великом Новгороде'},
-                     {'name': 'Образование', 'text': 'Художественное образование получила в МГУДТ'}]
-        }
-        return render(request, 'firstnotlog.html', data)
-    else:
-        return render(request, 'pictures.html', context={'pictures': picture})
-
-
-def picturenotlog(request):
-    picture = [
-        {
-            'pic': 'new-york.jpg',
-            'text': 'Нью-Йорк',
-            'price': 500
-        },
-        {
-            'text': 'Венеция',
-            'price': 600
-        },
-        {
-            'text': 'Фреди',
-        },
-    ]
-    return render(request, 'picturenotlog.html', context={'pictures': picture})
-
-
 def Profile(request):
     args = {"user": request.user}
     data2 = {
@@ -133,7 +94,7 @@ def Profile(request):
 def profedit(request):
     user = request.user
     if request.method=='POST':
-        form = Edit(request.POST, instance=request.user)
+        form = Edit(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             return redirect('/profile')
@@ -164,7 +125,7 @@ def changepass(request):
 
 def PictureCreateView(request):
     if request.method == 'POST':
-        form = PictureCreateForm(request.POST)
+        form = PictureCreateForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
