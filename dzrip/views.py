@@ -148,8 +148,8 @@ class Pics(TemplateView):
 
 
 def like_post(request):
-    post = get_object_or_404(Picture, id=request.POST.get('post_id'))
-    # post = get_object_or_404(Picture, id=request.POST.get('id'))
+    # post = get_object_or_404(Picture, id=request.POST.get('post_id'))
+    post = get_object_or_404(Picture, id=request.POST.get('id'))
     is_laked = False
     if post.like.filter(id = request.user.id).exists():
         post.like.remove(request.user)
@@ -157,8 +157,8 @@ def like_post(request):
     else:
         post.like.add(request.user)
         is_laked = True
-    return HttpResponseRedirect(reverse('pics'))
-    # context = {'data': post}
-    # if request.is_ajax():
-    #     html = render_to_string('pics.html', context, request=request)
-    #     return JsonResponse({'form': html})
+    # return HttpResponseRedirect(reverse('pics'))
+    context = {'data': post}
+    if request.is_ajax():
+        html = render_to_string('pics.html', context, request=request)
+        return JsonResponse({'form': html})
