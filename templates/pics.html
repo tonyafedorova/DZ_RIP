@@ -4,6 +4,30 @@
 {% block title %}pics{% endblock %}
 
 {% block content %}
+
+    <div class="pagination">
+
+    {% if data.has_previous %}
+        <a href="?page=1"><<</a>
+        <a href="?page={{ data.previous_page_number }}"><<</a>
+    {% endif %}
+
+
+    {% for num in data.paginator.page_range %}
+    {% if data.number == num %}
+        <strong>{{ num }}</strong>
+    {% elif num > data.number|add:'-3' and num < data.number|add:'3' %}
+        {{ num }}
+    {% endif %}
+    {% endfor %}
+
+    {% if data.has_next %}
+        <a href="?page={{ data.next_page_number }}">>></a>
+        <a href="?page={{ data.paginator.num_pages }}">>></a>
+    {% endif %}
+
+    </div>
+
     <h1>Картины</h1>
     <div class="container" style="max-width: 800px">
         <div class="jumbotron">
@@ -23,9 +47,6 @@
                                 {% endif %}
                                 <form action="{% url 'like_post' %}" method="post">
                                     {% csrf_token %}
-{#                                    <a href="#" class="btn btn-default" role="button">#}
-{#                                    <span class="glyphicon glyphicon-heart"></span> {{ el.like }}#}
-{#                                </a>#}
                                     <button class="btn btn-default" type="submit", id="like" name="post_id", value="{{ el.id }}">
                                         {{ el.total_likes }}
                                     </button>

@@ -1,6 +1,7 @@
 from django.contrib import auth
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
+from django.core.paginator import Paginator
 from django.forms import model_to_dict
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
@@ -130,6 +131,8 @@ def PictureCreateView(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
+            return HttpResponseRedirect(reverse('root'))
+
     else:
         form = PictureCreateForm()
     context = {
@@ -143,6 +146,10 @@ class Pics(TemplateView):
 
     def get(self, request):
         data = Picture.objects.all()
+        paginator = Paginator(data, 4)
+        page = request.GET.get('page')
+        # ?page=2
+        data = paginator.get_page(page)
         return render(request, 'pics.html', context={'data': data})
 
 
