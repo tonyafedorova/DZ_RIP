@@ -131,7 +131,7 @@ def PictureCreateView(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return HttpResponseRedirect(reverse('root'))
+            return HttpResponseRedirect(reverse('pics'))
 
     else:
         form = PictureCreateForm()
@@ -146,7 +146,7 @@ class Pics(TemplateView):
 
     def get(self, request):
         data = Picture.objects.all()
-        paginator = Paginator(data, 4)
+        paginator = Paginator(data, 8)
         page = request.GET.get('page')
         # ?page=2
         data = paginator.get_page(page)

@@ -5,28 +5,6 @@
 
 {% block content %}
 
-    <div class="pagination">
-
-    {% if data.has_previous %}
-        <a href="?page=1"><<</a>
-        <a href="?page={{ data.previous_page_number }}"><<</a>
-    {% endif %}
-
-
-    {% for num in data.paginator.page_range %}
-    {% if data.number == num %}
-        <strong>{{ num }}</strong>
-    {% elif num > data.number|add:'-3' and num < data.number|add:'3' %}
-        {{ num }}
-    {% endif %}
-    {% endfor %}
-
-    {% if data.has_next %}
-        <a href="?page={{ data.next_page_number }}">>></a>
-        <a href="?page={{ data.paginator.num_pages }}">>></a>
-    {% endif %}
-
-    </div>
 
     <h1>Картины</h1>
     <div class="container" style="max-width: 800px">
@@ -59,5 +37,29 @@
             </div>
        </div>
     </div>
+
+<div class="pagination">
+<div align="center" class="thumbnail" style="max-width: 800px">
+    {% if data.has_previous %}
+{#        <a style="font-size: 14px; color: #ce8483" href="?page=1">начало</a>#}
+        <a style="font-size: 20px; color: #ce8483" href="?page={{ data.previous_page_number }}">предыдущая</a>
+    {% endif %}
+
+
+    {% for num in data.paginator.page_range %}
+        {% if data.number == num %}
+            <strong style="font-size: 20px; color: #ce8483">{{ num }}</strong>
+        {% elif num > data.number|add:'-3' and num < data.number|add:'3' %}
+            <a style="font-size: 20px; color: #ce8483"  href="?page={{ data.paginator.num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if data.has_next %}
+        <a style="font-size: 20px; color: #ce8483"  href="?page={{ data.next_page_number }}">следующая</a>
+{#        <a style="font-size: 14px; color: #ce8483" href="?page={{ data.paginator.num_pages }}">конец</a>#}
+    {% endif %}
+</div>
+
+</div>
 
 {% endblock %}
